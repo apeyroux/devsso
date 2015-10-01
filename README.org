@@ -1,0 +1,16 @@
+* devsso
+
+Permets de créer facilement un sso qui transmet des headers d'authentification. Avec plusieurs profils.
+
+#+BEGIN_SRC sh
+devsso -c devsso.json
+#+END_SRC
+
+Pour initialiser l'utilisateur
+
+#+BEGIN_SRC sh
+http://urldusso/?ssoid=ja
+#+END_SRC
+
+Cela creer un cookie ssoid pour que le reverse sso sache avec quel utilisateur travailler
+et donc renvoyer les bonnes headers.

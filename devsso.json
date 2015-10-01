@@ -1,0 +1,21 @@
+{
+    "host":"127.0.0.1",
+    "proxyto":"http://127.0.0.1:8888/",
+    "listen":":8080",
+    "users":[
+        {
+            "login":"ja",
+            "headers": [
+                {"HTTP_LOGIN":"ja.p"},
+                {"HTTP_REALNAME":"Jean-Alexandre P."}
+            ]
+        },
+        {
+            "login":"sa",
+            "headers": [
+                {"HTTP_LOGIN":"sylvain.a"},
+                {"HTTP_REALNAME":"Sylvain A."}
+            ]
+        }
+    ]
+}
