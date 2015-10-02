@@ -51,14 +51,16 @@ func login(cf Configuration, cookie *http.Cookie, r *http.Request) {
 func proxy(cf Configuration) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		if "" != r.FormValue("ssoid") {
+		if r.Method == "GET" && "" != r.FormValue("ssoid") {
 			cid := &http.Cookie{Name:"ssoid", Value:r.FormValue("ssoid"), Path:"*", Expires:time.Now().Add(356*24*time.Hour), HttpOnly:true}
 			w.Header().Set("Set-Cookie", cid.String())
 			login(cf, cid, r)
+			log.Printf("%s - %s", cid.Value, r.RequestURI)
 		} else {
 			cid, _ := r.Cookie("ssoid")
 			if cid != nil {
 				login(cf, cid, r)
+				log.Printf("%s - %s", cid.Value, r.RequestURI)
 			}
 		}
 
