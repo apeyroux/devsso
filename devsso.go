@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const VERSION = "0.1"
+
 var (
 	flcf *string = flag.String("c", "", "Config file")
 )
