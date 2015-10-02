@@ -16,15 +16,15 @@ var (
 )
 
 type User struct {
-	Login    string `json:"login"`
-	Headers  []map[string]string
+	Login   string `json:"login"`
+	Headers []map[string]string
 }
 
 type Configuration struct {
-	Host     string `json:"host"`
-	ProxyTo  string `json:"proxyto"`
-	Listen   string `json:"listen"`
-	Users    []User `json:"users"`
+	Host    string `json:"host"`
+	ProxyTo string `json:"proxyto"`
+	Listen  string `json:"listen"`
+	Users   []User `json:"users"`
 }
 
 func newConfig(path string) (config Configuration, err error) {
@@ -52,15 +52,15 @@ func proxy(cf Configuration) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		if r.Method == "GET" && "" != r.FormValue("ssoid") {
-			cid := &http.Cookie{Name:"ssoid", Value:r.FormValue("ssoid"), Path:"*", Expires:time.Now().Add(356*24*time.Hour), HttpOnly:true}
+			cid := &http.Cookie{Name: "ssoid", Value: r.FormValue("ssoid"), Path: "*", Expires: time.Now().Add(356 * 24 * time.Hour), HttpOnly: true}
 			w.Header().Set("Set-Cookie", cid.String())
 			login(cf, cid, r)
-			log.Printf("%s - %s", cid.Value, r.RequestURI)
+			log.Printf("%s - %s [%s]", cid.Value, r.RequestURI, r.Header)
 		} else {
 			cid, _ := r.Cookie("ssoid")
 			if cid != nil {
 				login(cf, cid, r)
-				log.Printf("%s - %s", cid.Value, r.RequestURI)
+				log.Printf("%s - %s [%s]", cid.Value, r.RequestURI, r.Header)
 			}
 		}
 
@@ -86,7 +86,7 @@ func main() {
 	}
 
 	log.Printf("Starting...")
-    http.Handle("/", proxy(cf))
+	http.Handle("/", proxy(cf))
 	log.Printf("listen %s", cf.Listen)
 	log.Fatal(http.ListenAndServe(cf.Listen, nil))
 
