@@ -9,6 +9,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"time"
+	"strings"
 )
 
 const VERSION = "0.1"
@@ -43,7 +44,7 @@ func login(cf Configuration, cookie *http.Cookie, r *http.Request) {
 		if user.Login == cookie.Value {
 			for _, headers := range user.Headers {
 				for key, val := range headers {
-					r.Header.Add(key, val)
+					r.Header.Add(key, val) // CanonicalMIMEHeaderKey
 				}
 			}
 		}
